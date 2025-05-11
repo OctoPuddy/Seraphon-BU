@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <title>Command Orders</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=1200, user-scalable=yes" />
   <style>
     html, body {
       margin: 0;
       padding: 0;
       background-color: black;
       overflow: auto;
+      width: 1200px;
     }
 
     .container {
@@ -20,7 +21,7 @@
     .full-image {
       display: block;
       width: 1200px;
-      max-width: none;
+      height: auto;
     }
 
     canvas {
@@ -30,34 +31,53 @@
       z-index: 10;
       pointer-events: auto;
     }
-.home-btn {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 50;
-  background-color: white;
-  padding: 6px;
-  border-radius: 6px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
-  display: inline-block;
-}
 
+    .home-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 50;
+      background-color: white;
+      padding: 6px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+      display: inline-block;
+    }
 
     .home-btn img {
       width: 40px;
       height: 40px;
     }
 
-    .reset-btn {
+    .toggle-draw-btn {
       position: fixed;
       top: 10px;
       right: 10px;
       z-index: 50;
+      background-color: white;
+      padding: 6px;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+      display: inline-block;
+    }
+
+    .toggle-draw-btn img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .reset-btn {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 50;
       padding: 0.5em 1em;
-      font-size: 16px;
+      font-size: 24px;
       background-color: #fff;
       border: none;
       cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
     }
   </style>
 </head>
@@ -74,6 +94,11 @@
     <canvas id="drawCanvas"></canvas>
   </div>
 
+  <!-- Bouton dessin -->
+  <button class="toggle-draw-btn" onclick="toggleDrawingMode()">
+    <img src="boutons/draw.png" alt="Dessin" />
+  </button>
+
   <!-- Bouton reset -->
   <button class="reset-btn" onclick="resetCanvas()">Reset</button>
 
@@ -82,6 +107,7 @@
     const container = document.getElementById("drawContainer");
     const ctx = canvas.getContext("2d");
     let drawing = false;
+    let drawingEnabled = false;
 
     function resizeCanvas() {
       canvas.width = container.scrollWidth;
@@ -105,7 +131,7 @@
     }
 
     function startDraw(e) {
-      if (e.touches && e.touches.length > 1) return;
+      if (!drawingEnabled || (e.touches && e.touches.length > 1)) return;
       drawing = true;
       const pos = getPos(e);
       ctx.beginPath();
@@ -114,22 +140,21 @@
     }
 
     function draw(e) {
-      if (!drawing) return;
+      if (!drawingEnabled || !drawing) return;
       const pos = getPos(e);
       ctx.lineTo(pos.x, pos.y);
       ctx.strokeStyle = "red";
-      ctx.lineWidth = 8; // ← Épaisseur du trait
+      ctx.lineWidth = 8;
       ctx.lineCap = "round";
       ctx.stroke();
       e.preventDefault();
     }
 
     function stopDraw(e) {
-      if (drawing) {
-        drawing = false;
-        ctx.closePath();
-        saveDrawing();
-      }
+      if (!drawingEnabled || !drawing) return;
+      drawing = false;
+      ctx.closePath();
+      saveDrawing();
       e.preventDefault();
     }
 
@@ -142,11 +167,17 @@
     canvas.addEventListener("touchmove", draw, { passive: false });
     canvas.addEventListener("touchend", stopDraw, { passive: false });
 
+    function toggleDrawingMode() {
+      drawingEnabled = !drawingEnabled;
+      const btn = document.querySelector(".toggle-draw-btn img");
+      btn.style.opacity = drawingEnabled ? 1.0 : 0.4;
+    }
+
     function saveDrawing() {
       try {
         localStorage.setItem("canvasData", canvas.toDataURL());
       } catch (e) {
-        console.warn("Échec de la sauvegarde", e);
+        console.warn("\u00c9chec de la sauvegarde", e);
       }
     }
 
