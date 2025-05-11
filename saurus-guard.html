@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fiche AOS Interactive</title>
+  <style>
+    body {
+      margin: 0;
+      background: #333;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1200/1667;
+      background-image: url('fiches/saurus-guard.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center top;
+    }
+
+    .toggle {
+      font-family: 'Roboto', sans-serif;
+      font-weight: bold;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.6em;
+      padding: 0.2vw;
+      border: 2px solid #999;
+      border-radius: 0.4vw;
+      user-select: none;
+      background-color: #D7D0C3;
+      width: 17%;
+      height: 3%;
+      transition: background-color 0.1s ease, opacity 0.2s ease;
+      opacity: 0.5;
+    }
+
+    .notes-container {
+      position: absolute;
+      width: 35.5%;
+      height: 6%;
+      top: 31%;
+      left: 60.5%;
+    }
+
+    .notes-container textarea {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      font-size: 1.6em;
+      text-transform: uppercase;
+      padding: 0.3em;
+      border-radius: 0.4em;
+      border: 1px solid #999;
+      background-color: #ede9d6;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    #reset-btn {
+      position: absolute;
+      top: 2.2%;
+      right: 3.5%;
+      padding: 0.2em;
+      font-size: 1em;
+      border: none;
+      border-radius: 0.4em;
+      background-color: #ccc;
+      cursor: pointer;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .back-zone {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 20%;
+      z-index: 5;
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-zone"></a>
+    <!-- Boutons -->
+    <div class="toggle" data-type="positive" data-label="HIT" style="top: 23%; left: 2%;">+1 HIT</div>
+    <div class="toggle" data-type="negative" data-label="HIT" style="top: 27%; left: 2%;">-1 HIT</div>
+    <div class="toggle" data-type="positive" data-label="WOUND" style="top: 23%; left: 21.5%;">+1 WOUND</div>
+    <div class="toggle" data-type="negative" data-label="WOUND" style="top: 27%; left: 21.5%;">-1 WOUND</div>
+    <div class="toggle" data-type="positive" data-label="REND" style="top: 23%; left: 41%;">+1 REND</div>
+    <div class="toggle" data-type="negative" data-label="REND" style="top: 27%; left: 41%;">-1 REND</div>
+    <div class="toggle" data-type="positive" data-label="CHARGE" style="top: 23%; left: 60.5%;">+1 CHARGE</div>
+    <div class="toggle" data-type="negative" data-label="CHARGE" style="top: 27%; left: 60.5%;">-1 CHARGE</div>
+    <div class="toggle" data-type="positive" data-label="MOVE" style="top: 23%; left: 80%;">+1 MOVE</div>
+    <div class="toggle" data-type="negative" data-label="MOVE" style="top: 27%; left: 80%;">-1 MOVE</div>
+    <div class="toggle" data-type="positive" data-label="SAVE" style="top: 31%; left: 2%;">+1 SAVE</div>
+    <div class="toggle" data-type="negative" data-label="SAVE" style="top: 35%; left: 2%;">-1 SAVE</div>
+    <div class="toggle" data-type="positive" data-label="WARD" style="top: 31%; left: 21.5%;">+1 WARD</div>
+    <div class="toggle" data-type="negative" data-label="WARD" style="top: 35%; left: 21.5%;">-1 WARD</div>
+    <div class="toggle" data-type="positive" data-label="CAST" style="top: 31%; left: 41%;">+1 CAST</div>
+    <div class="toggle" data-type="negative" data-label="CAST" style="top: 35%; left: 41%;">-1 CAST</div>
+
+    <!-- Champ de notes -->
+    <div class="notes-container">
+      <textarea placeholder=""></textarea>
+    </div>
+
+    <!-- Bouton réinitialiser -->
+    <button id="reset-btn">Reset</button>
+  </div>
+
+
+<script>
+  const pastelColors = {
+    neutral: "#D7D0C3",
+    positive1: "#01A66F",
+    positive2: "#01A66F",
+    negative1: "#882023",
+    negative2: "#882023"
+  };
+
+  const pageName = location.pathname.split("/").pop().replace(".html", "");
+
+  function saveData() {
+    const buttonsState = [];
+    document.querySelectorAll(".toggle").forEach(el => {
+      buttonsState.push({
+        label: el.dataset.label,
+        state: el.__state
+      });
+    });
+    localStorage.setItem(`buttonsState-${pageName}`, JSON.stringify(buttonsState));
+
+    const notesText = document.querySelector(".notes-container textarea").value;
+    localStorage.setItem(`notesText-${pageName}`, notesText);
+  }
+
+  function loadData() {
+    const buttonsState = JSON.parse(localStorage.getItem(`buttonsState-${pageName}`));
+    document.querySelectorAll(".toggle").forEach((el, index) => {
+      el.__state = buttonsState?.[index]?.state || 0;
+      updateButtonState(el);
+    });
+
+    const notesText = localStorage.getItem(`notesText-${pageName}`);
+    if (notesText) {
+      document.querySelector(".notes-container textarea").value = notesText;
+    }
+  }
+
+  function updateButtonState(el) {
+    const state = el.__state;
+    const label = el.dataset.label;
+    const type = el.dataset.type;
+    el.style.opacity = "1";
+
+    if (state === 0) {
+      el.style.backgroundColor = pastelColors.neutral;
+      el.style.color = "#000";
+      el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
+    } else if (state === 1) {
+      el.style.backgroundColor = pastelColors[type + "1"];
+      el.style.color = type === "negative" ? "#fff" : "#000";
+      el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
+    } else {
+      el.style.backgroundColor = pastelColors[type + "2"];
+      el.style.color = type === "negative" ? "#fff" : "#000";
+      el.textContent = `${type === "positive" ? "+2" : "-2"} ${label}`;
+    }
+  }
+
+  window.onload = loadData;
+
+  document.querySelectorAll(".toggle").forEach(el => {
+    el.__state = 0;
+    el.addEventListener("click", () => {
+      el.__state = (el.__state + 1) % 3;
+      updateButtonState(el);
+      saveData();
+    });
+  });
+
+  document.querySelector(".notes-container textarea").addEventListener("input", saveData);
+
+  document.getElementById("reset-btn").addEventListener("click", () => {
+    document.querySelectorAll(".toggle").forEach(el => {
+      el.__state = 0;
+      updateButtonState(el);
+    });
+
+    document.querySelector(".notes-container textarea").value = "";
+    localStorage.removeItem(`buttonsState-${pageName}`);
+    localStorage.removeItem(`notesText-${pageName}`);
+  });
+</script>
+
+</body>
+</html>
