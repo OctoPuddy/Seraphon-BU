@@ -15,6 +15,20 @@ if (sessionStorage.getItem('returnToRest')) {
   }
 }
 
+
+if (sessionStorage.getItem('returnToRest')) {
+  const tryScroll = () => {
+    const target = document.querySelector('.section-rest .image-button');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      sessionStorage.removeItem('returnToRest');
+    } else {
+      setTimeout(tryScroll, 50);
+    }
+  };
+  tryScroll();
+}
+
 </script>
 <style>
     html, body {
@@ -487,6 +501,20 @@ if (sessionStorage.getItem('returnToRest')) {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     sessionStorage.removeItem('returnToRest');
   }
+}
+
+
+if (sessionStorage.getItem('returnToRest')) {
+  const tryScroll = () => {
+    const target = document.querySelector('.section-rest .image-button');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      sessionStorage.removeItem('returnToRest');
+    } else {
+      setTimeout(tryScroll, 50);
+    }
+  };
+  tryScroll();
 }
 
 </script>
