@@ -6,9 +6,8 @@
   <style>
   .toggle {
     position: absolute;
-    top: var(--base-top);
+    top: calc(33% + var(--row) * 4%);
     left: var(--left);
-    transform: translateY(calc(var(--row) * var(--row-gap)));
   }
 
   :root {
@@ -107,20 +106,20 @@
     <!-- Boutons -->
     <div class="toggle" data-type="positive" data-label="ATTACK" style="--row: 0; --left: 2%;">+1 ATTACK</div>
     <div class="toggle" data-type="negative" data-label="ATTACK" style="--row: 1; --left: 2%;">-1 ATTACK</div>
-    <div class="toggle" data-type="positive" data-label="HIT" style="--row: 0; --left: 21.5%;">+1 HIT</div>
-    <div class="toggle" data-type="negative" data-label="HIT" style="--row: 1; --left: 21.5%;">-1 HIT</div>
-    <div class="toggle" data-type="positive" data-label="WOUND" style="--row: 0; --left: 41%;">+1 WOUND</div>
-    <div class="toggle" data-type="negative" data-label="WOUND" style="--row: 1; --left: 41%;">-1 WOUND</div>
-    <div class="toggle" data-type="positive" data-label="REND" style="--row: 0; --left: 60.5%;">+1 REND</div>
-    <div class="toggle" data-type="negative" data-label="REND" style="--row: 1; --left: 60.5%;">-1 REND</div>
-    <div class="toggle" data-type="positive" data-label="CHARGE" style="--row: 0; --left: 80%;">+1 CHARGE</div>
-    <div class="toggle" data-type="negative" data-label="CHARGE" style="--row: 1; --left: 80%;">-1 CHARGE</div>
-    <div class="toggle" data-type="positive" data-label="SAVE" style="--row: 2; --left: 2%;">+1 SAVE</div>
-    <div class="toggle" data-type="negative" data-label="SAVE" style="--row: 3; --left: 2%;">-1 SAVE</div>
-    <div class="toggle" data-type="positive" data-label="WARD" style="--row: 2; --left: 21.5%;">+1 WARD</div>
-    <div class="toggle" data-type="negative" data-label="WARD" style="--row: 3; --left: 21.5%;">-1 WARD</div>
-    <div class="toggle" data-type="positive" data-label="CAST" style="--row: 2; --left: 41%;">+1 CAST</div>
-    <div class="toggle" data-type="negative" data-label="CAST" style="--row: 3; --left: 41%;">-1 CAST</div>
+    <div class="toggle" data-type="positive" data-label="HIT" style="--row: 2; --left: 21.5%;">+1 HIT</div>
+    <div class="toggle" data-type="negative" data-label="HIT" style="--row: 3; --left: 21.5%;">-1 HIT</div>
+    <div class="toggle" data-type="positive" data-label="WOUND" style="--row: 4; --left: 41%;">+1 WOUND</div>
+    <div class="toggle" data-type="negative" data-label="WOUND" style="--row: 5; --left: 41%;">-1 WOUND</div>
+    <div class="toggle" data-type="positive" data-label="REND" style="--row: 6; --left: 60.5%;">+1 REND</div>
+    <div class="toggle" data-type="negative" data-label="REND" style="--row: 7; --left: 60.5%;">-1 REND</div>
+    <div class="toggle" data-type="positive" data-label="CHARGE" style="--row: 8; --left: 80%;">+1 CHARGE</div>
+    <div class="toggle" data-type="negative" data-label="CHARGE" style="--row: 9; --left: 80%;">-1 CHARGE</div>
+    <div class="toggle" data-type="positive" data-label="SAVE" style="--row: 10; --left: 2%;">+1 SAVE</div>
+    <div class="toggle" data-type="negative" data-label="SAVE" style="--row: 11; --left: 2%;">-1 SAVE</div>
+    <div class="toggle" data-type="positive" data-label="WARD" style="--row: 12; --left: 21.5%;">+1 WARD</div>
+    <div class="toggle" data-type="negative" data-label="WARD" style="--row: 13; --left: 21.5%;">-1 WARD</div>
+    <div class="toggle" data-type="positive" data-label="CAST" style="--row: 14; --left: 41%;">+1 CAST</div>
+    <div class="toggle" data-type="negative" data-label="CAST" style="--row: 15; --left: 41%;">-1 CAST</div>
     <!-- Champ de notes -->
     <div class="notes-container">
       <textarea placeholder=""></textarea>
