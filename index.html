@@ -15,43 +15,6 @@ if (sessionStorage.getItem('returnToRest')) {
   }
 }
 
-
-if (sessionStorage.getItem('returnToRest')) {
-  const tryScroll = () => {
-    const target = document.querySelector('.section-rest .image-button');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      sessionStorage.removeItem('returnToRest');
-    } else {
-      setTimeout(tryScroll, 50);
-    }
-  };
-  tryScroll();
-}
-
-
-if (sessionStorage.getItem('returnToRest')) {
-  const tryScroll = () => {
-    const target = document.querySelector('.section-rest .image-button');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      target.style.outline = '3px solid red';
-      sessionStorage.removeItem('returnToRest');
-    } else {
-      setTimeout(tryScroll, 50);
-    }
-  };
-  tryScroll();
-}
-
-
-if (window.location.hash === '#rest') {
-  const target = document.querySelector('.section-rest .image-button');
-  if (target) {
-    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
-  }
-}
-
 </script>
 <style>
     html, body {
@@ -523,43 +486,6 @@ if (sessionStorage.getItem('returnToRest')) {
   if (target) {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     sessionStorage.removeItem('returnToRest');
-  }
-}
-
-
-if (sessionStorage.getItem('returnToRest')) {
-  const tryScroll = () => {
-    const target = document.querySelector('.section-rest .image-button');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      sessionStorage.removeItem('returnToRest');
-    } else {
-      setTimeout(tryScroll, 50);
-    }
-  };
-  tryScroll();
-}
-
-
-if (sessionStorage.getItem('returnToRest')) {
-  const tryScroll = () => {
-    const target = document.querySelector('.section-rest .image-button');
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      target.style.outline = '3px solid red';
-      sessionStorage.removeItem('returnToRest');
-    } else {
-      setTimeout(tryScroll, 50);
-    }
-  };
-  tryScroll();
-}
-
-
-if (window.location.hash === '#rest') {
-  const target = document.querySelector('.section-rest .image-button');
-  if (target) {
-    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 }
 
