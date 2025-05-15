@@ -44,6 +44,14 @@ if (sessionStorage.getItem('returnToRest')) {
   tryScroll();
 }
 
+
+if (window.location.hash === '#rest') {
+  const target = document.querySelector('.section-rest .image-button');
+  if (target) {
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
+}
+
 </script>
 <style>
     html, body {
@@ -545,6 +553,14 @@ if (sessionStorage.getItem('returnToRest')) {
     }
   };
   tryScroll();
+}
+
+
+if (window.location.hash === '#rest') {
+  const target = document.querySelector('.section-rest .image-button');
+  if (target) {
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  }
 }
 
 </script>
