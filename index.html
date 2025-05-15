@@ -29,6 +29,21 @@ if (sessionStorage.getItem('returnToRest')) {
   tryScroll();
 }
 
+
+if (sessionStorage.getItem('returnToRest')) {
+  const tryScroll = () => {
+    const target = document.querySelector('.section-rest .image-button');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.style.outline = '3px solid red';
+      sessionStorage.removeItem('returnToRest');
+    } else {
+      setTimeout(tryScroll, 50);
+    }
+  };
+  tryScroll();
+}
+
 </script>
 <style>
     html, body {
@@ -509,6 +524,21 @@ if (sessionStorage.getItem('returnToRest')) {
     const target = document.querySelector('.section-rest .image-button');
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      sessionStorage.removeItem('returnToRest');
+    } else {
+      setTimeout(tryScroll, 50);
+    }
+  };
+  tryScroll();
+}
+
+
+if (sessionStorage.getItem('returnToRest')) {
+  const tryScroll = () => {
+    const target = document.querySelector('.section-rest .image-button');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      target.style.outline = '3px solid red';
       sessionStorage.removeItem('returnToRest');
     } else {
       setTimeout(tryScroll, 50);
