@@ -399,7 +399,8 @@ function resetAllData() {
 
 
     // Repositionne le scroll
-        if (savedPos) window.scrollTo(0, parseInt(savedPos));
+    const savedPos = sessionStorage.getItem("scrollPos");
+    if (savedPos) window.scrollTo(0, parseInt(savedPos));
 
     ['T1', 'T3'].forEach(id => {
       const saved = localStorage.getItem(`trait-${id}`);
