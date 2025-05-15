@@ -6,7 +6,16 @@
 <title>Index AOS</title>
 <meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&amp;display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js">
+if (sessionStorage.getItem('returnToRest')) {
+  const target = document.querySelector('.section-rest .image-button');
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sessionStorage.removeItem('returnToRest');
+  }
+}
+
+</script>
 <style>
     html, body {
       margin: 0;
@@ -471,6 +480,15 @@ function resetAllData() {
       e.target.style.display = 'none';
     }
   });
+
+if (sessionStorage.getItem('returnToRest')) {
+  const target = document.querySelector('.section-rest .image-button');
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    sessionStorage.removeItem('returnToRest');
+  }
+}
+
 </script>
 </body>
 </html>
