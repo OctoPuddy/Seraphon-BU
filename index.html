@@ -18,7 +18,8 @@
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      height: 100vh;
+      min-height: 100vh;
+  height: auto;
     }
     header {
       height: 60px;
@@ -398,8 +399,7 @@ function resetAllData() {
 
 
     // Repositionne le scroll
-    const savedPos = sessionStorage.getItem("scrollPos");
-    if (savedPos) window.scrollTo(0, parseInt(savedPos));
+        if (savedPos) window.scrollTo(0, parseInt(savedPos));
 
     ['T1', 'T3'].forEach(id => {
       const saved = localStorage.getItem(`trait-${id}`);
