@@ -130,65 +130,75 @@
 
  
 <script>
-  const pastelColors = {
-    neutral: "#D7D0C3",
-    positive1: "#01A66F",
-    positive2: "#01A66F",
-    negative1: "#882023",
-    negative2: "#882023"
-  };
+const pastelColors = {
+  neutral: "#D7D0C3",
+  positive1: "#01A66F",
+  positive2: "#01A66F",
+  negative1: "#882023",
+  negative2: "#882023"
+};
 
-  const pageName = location.pathname.split("/").pop().replace(".html", "");
+const pageName = location.pathname.split("/").pop().replace(".html", "");
 
-  function saveData() {
-    const buttonsState = [];
-    document.querySelectorAll(".toggle").forEach(el => {
-      buttonsState.push({
-        label: el.dataset.label,
-        state: el.__state
-      });
+function saveData() {
+  const buttonsState = [];
+  document.querySelectorAll(".toggle").forEach(el => {
+    buttonsState.push({
+      label: el.dataset.label,
+      state: el.__state
     });
-    localStorage.setItem(`buttonsState-${pageName}`, JSON.stringify(buttonsState));
+  });
+  localStorage.setItem(`buttonsState-${pageName}`, JSON.stringify(buttonsState));
 
-    const notesText = document.querySelector(".notes-container textarea").value;
-    localStorage.setItem(`notesText-${pageName}`, notesText);
-  }
+  const notesText = document.querySelector(".notes-container textarea").value;
+  localStorage.setItem(`notesText-${pageName}`, notesText);
+}
 
-  function loadData() {
-    const buttonsState = JSON.parse(localStorage.getItem(`buttonsState-${pageName}`));
+function loadData() {
+  const buttonsState = JSON.parse(localStorage.getItem(`buttonsState-${pageName}`));
+  if (buttonsState) {
     document.querySelectorAll(".toggle").forEach((el, index) => {
-      el.__state = buttonsState?.[index]?.state || 0;
+      const state = buttonsState[index];
+      if (state) {
+        el.__state = state.state;
+        updateButtonState(el);
+      }
+    });
+  } else {
+    document.querySelectorAll(".toggle").forEach(el => {
+      el.__state = 0;
       updateButtonState(el);
     });
-
-    const notesText = localStorage.getItem(`notesText-${pageName}`);
-    if (notesText) {
-      document.querySelector(".notes-container textarea").value = notesText;
-    }
   }
 
-  function updateButtonState(el) {
-    const state = el.__state;
-    const label = el.dataset.label;
-    const type = el.dataset.type;
-    el.style.opacity = "1";
-
-    if (state === 0) {
-      el.style.backgroundColor = pastelColors.neutral;
-      el.style.color = "#000";
-      el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
-    } else if (state === 1) {
-      el.style.backgroundColor = pastelColors[type + "1"];
-      el.style.color = type === "negative" ? "#fff" : "#000";
-      el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
-    } else {
-      el.style.backgroundColor = pastelColors[type + "2"];
-      el.style.color = type === "negative" ? "#fff" : "#000";
-      el.textContent = `${type === "positive" ? "+2" : "-2"} ${label}`;
-    }
+  const notesText = localStorage.getItem(`notesText-${pageName}`);
+  if (notesText) {
+    document.querySelector(".notes-container textarea").value = notesText;
   }
+}
 
-  window.onload = loadData;
+function updateButtonState(el) {
+  const state = el.__state;
+  const label = el.dataset.label;
+  const type = el.dataset.type;
+
+  if (state === 0) {
+    el.style.backgroundColor = pastelColors.neutral;
+    el.style.color = "#000";
+    el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
+  } else if (state === 1) {
+    el.style.backgroundColor = pastelColors[type + "1"];
+    el.style.color = type === "negative" ? "#fff" : "#000";
+    el.textContent = `${type === "positive" ? "+1" : "-1"} ${label}`;
+  } else {
+    el.style.backgroundColor = pastelColors[type + "2"];
+    el.style.color = type === "negative" ? "#fff" : "#000";
+    el.textContent = `${type === "positive" ? "+2" : "-2"} ${label}`;
+  }
+}
+
+window.onload = function() {
+  loadData();
 
   document.querySelectorAll(".toggle").forEach(el => {
     el.__state = 0;
@@ -199,19 +209,29 @@
     });
   });
 
-  document.querySelector(".notes-container textarea").addEventListener("input", saveData);
+  const notes = document.querySelector(".notes-container textarea");
+  if (notes) {
+    notes.addEventListener("input", saveData);
+  }
 
-  document.getElementById("reset-btn").addEventListener("click", () => {
-    document.querySelectorAll(".toggle").forEach(el => {
-      el.__state = 0;
-      updateButtonState(el);
+  const resetBtn = document.getElementById("reset-btn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      document.querySelectorAll(".toggle").forEach(el => {
+        el.__state = 0;
+        updateButtonState(el);
+      });
+
+      const textarea = document.querySelector(".notes-container textarea");
+      if (textarea) textarea.value = "";
+
+      localStorage.removeItem(`buttonsState-${pageName}`);
+      localStorage.removeItem(`notesText-${pageName}`);
     });
-
-    document.querySelector(".notes-container textarea").value = "";
-    localStorage.removeItem(`buttonsState-${pageName}`);
-    localStorage.removeItem(`notesText-${pageName}`);
-  });
+  }
+};
 </script>
+
 
 </body>
 </html>
